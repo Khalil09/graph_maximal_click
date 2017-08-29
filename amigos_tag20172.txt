@@ -1,49 +1,49 @@
-Diego Santos Kieckbusch#1
-Marcelo Giordano Martins Costa de Oliveira#2#3#5#11#14#17#19#27#42
-Marcus Vinicius da Silva Borges#3#2#7#10#19#21#25#29#30
-Lucas Araujo Pena#4#6#25
-Kevin Masinda Mahema#5#18
-Vinícius de Sousa Santana#6#4
-Vitor Passos Pontes#7#3#10#19#21#22#29#30#42
-Pedro Henrique Santos Gonzaga#8
-Bernado Costa Nascimento#9
-Frederico de Paiva Lenza#10#3#7#13#16#17#25#26#27#31#32
-Walyson Maxwel Dias Leite#11#2#17#42
-Rafael de Oliveira Martins#12#25#42
-Raphael Soares Ramos#13#10#15#17#19
-Rodrigo Neris Ferreira Cardoso#14#2#16#17#19#43
-Jader Martins Camboim de Sá#15#13#19#31
-Thiago Pereira Ribeiro Dantas#16#10#14#17
-Leandro Alberto de Faria#17#2#10#11#13#14#23#42
-Luan Mendes Gonçalves Freitas#18#5#19#44
-Claudio Segala Rodrigues da Silva Filho#19#2#3#7#13#14#15#18#21#24#25#26#27#29#30#32#38#39#42#46
-Antonio Henrique de Moura Rodrigues#20#21#23#26#27#31#33
-Caio Costa de Oliveira#21#3#7#20#29#30#31#39
-Emmanuel Gustavo Rinaldi Perotto#22
-Gabriel Patrick ALcantra Mourão#23#17#20#24#25#26#27#28#30#31#32#33
-Gabriel Rocha Fontenele#24#19#23#25#26#31#32#33#40#43
-Gabriel Rodrigues Diogenes Macedo#25#3#4#10#12#19#23#24#26#32#26#31#37#43#45
-Igor Figueira Pinheiro da Silva#26#10#19#20#23#24#25#27#29#31#32#33#36#37#39#43#46
-João Gabriel Lima Neves#27#2#10#19#20#23#26#29#31#32#33#34
-João Marcos Schmaltz Duda#28#23#32#36#37
-Khalil Carstern do Nascimento#29#3#7#19#21#26#27#29#41
-Leonardo de Almeida#30#3#7#21#29#35
-Matheus Rodrigues Guimarães#31#10#15#19#20#23#24#25#26#27#32#33
-Rena Godoi de Medeiros#32#10#19#23#24#25#26#27#31#33#35
-Tiago Rodrigues da Cunha Cabral#33#20#23#24#26#27#31#32#35
-Arthur da Silveira Couto#34#27#36
-Caio Albuquerque Brandão#35#30#32#33#36#37#38#40#41#43#46
-Gabriel Levi Gomes da Silva#36#26#28#35#37#38#39#41#42#43#46
-Léo Moraes da Silva#37#25#26#28#35#36#38#39#41#42#43
-Mikael Marques Mello#38#19#35#36#37#38#39#41#43#46
-Leonardo Maffei da Silva#39#19#21#26#34#35#36#37#38#41#42#43#45#46
-Pedro Lucas Pinto Andrade#40#24#35#43
-Gabriel Lobão Barroso de Souza#41#29#35#36#37#38#39#45#46
-Adriano Rodrigues Figueiredo Torres#42#2#7#11#12#17#19#36#37#39#43#47
-Ana Luísa Salvador Alvarez#43#14#24#25#26#36#37#38#39#40#42#44
-Bárbara Varanda Rangel#44#18#43
-João Victor Bohrer Munhoz#45#25#41
-Luís Felipe Braga Gebrim Silva#46#19#26#36#39
-Victor Neves Martorelli#47#42
-Lucas Sousa Lacerda#48
-Matheus Barbosa Santos#49 
+11/0027892#
+12/0037301#3#5#11#14#17#19#27#42#
+13/0032891#2#7#10#19#21#25#29#30#
+13/0056162#6#25#
+13/0058866#18#
+13/0067385#4#
+13/0137421#3#10#19#21#22#29#30#42#
+14/0030131#
+14/0080279#
+14/0082221#3#7#13#16#17#25#26#27#31#32#
+14/0087851#2#17#42#
+14/0159461#25#42#
+14/0160299#10#15#17#19#
+14/0161597#2#16#17#19#43#
+14/0168915#13#19#31#
+14/0170961#10#14#17#
+14/0178759#2#10#11#13#14#23#42#
+15/0015585#5#19#44#
+15/0032552#2#3#7#13#14#15#18#21#24#25#26#27#29#30#32#38#39#42#46#
+15/0118236#21#23#26#27#31#33#
+15/0120524#3#7#20#29#30#31#39#
+15/0124163#
+15/0126701#17#20#24#25#26#27#28#30#31#32#33#
+15/0126760#19#23#25#26#31#32#33#40#43#
+15/0126808#3#4#10#12#19#23#24#26#32#26#31#37#43#45#
+15/0129921#10#19#20#23#24#25#27#29#31#32#33#36#37#39#43#46#
+15/0131992#2#10#19#20#23#26#29#31#32#33#34#
+15/0132131#23#32#36#37#
+15/0134495#3#7#19#21#26#27#29#41#
+15/0135491#3#7#21#29#35#
+15/0141661#10#15#19#20#23#24#25#26#27#32#33#
+15/0146612#10#19#23#24#25#26#27#31#33#35#
+15/0150296#20#23#24#26#27#31#32#35#
+16/0002575#27#36#
+16/0003636#30#32#33#36#37#38#40#41#43#46#
+16/0006490#26#28#35#37#38#39#41#42#43#46#
+16/0011795#25#26#28#35#36#38#39#41#42#43#
+16/0015537#19#35#36#37#38#39#41#43#46#
+16/0033811#19#21#26#34#35#36#37#38#41#42#43#45#46#
+16/0038316#24#35#43#
+16/0046424#29#35#36#37#38#39#45#46#
+16/0047617#2#7#11#12#17#19#36#37#39#43#47#
+16/0048036#14#24#25#26#36#37#38#39#40#42#44#
+16/0069653#18#43#
+16/0071101#25#41#
+16/0071569#19#26#36#39#
+16/0085012#42#
+17/0052915#
+17/0053016#

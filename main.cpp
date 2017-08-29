@@ -1,20 +1,44 @@
 #include<iostream>
 #include<fstream>
-#include<bits/stdc++.h>
 #include<string>
 #include<vector>
 #include<cstdlib>
+#include<sstream>
+#include<bits/stdc++.h>
 
 using namespace std;
+
+map<int, string> mat_map;
+int edge1, edge2;
 
 class Graph{
     private:
         vector<vector<int>> adj;
     public:
-        void add_node(int node); // add a node
-        void add_edge(int node1, int node2); // add
+        Graph();
+        Graph(int size);
         int size();
+        int size_adj(int node);
+        void add_edge(int node1, int node2); // add
+        void print_vertices_size();
+        void print_graph();
+        vector<int>& operator[](int  index);
+        vector<bool> intersection(vector<bool> a, vector<int> b);
+        vector<bool> bron_kerbosch(vector<bool> R, vector<bool> P, vector<bool> X);
 };
+
+Graph::Graph(int size){
+    for(int i = 0; i < size; i++){
+        vector<int> a;
+        adj.push_back(a);
+    }
+}
+
+vector<int>& Graph::operator[](int index){
+    if (index > adj.size() || index < 0)
+        throw std::out_of_range("Index out of range");
+    return adj[index];
+}
 
 int Graph::size(){
     return adj.size();
@@ -25,35 +49,160 @@ int Graph::size_adj(int node){
 }
 
 void Graph::add_edge(int f_node, int s_node){
+        f_node--;
+        s_node--;
+
         adj[f_node].push_back(s_node);
         adj[s_node].push_back(f_node);
+        sort(adj[f_node].begin(), adj[f_node].end());
+        sort(adj[s_node].begin(), adj[s_node].end());
+        adj[f_node].erase(unique(adj[f_node].begin(), adj[f_node].end()), adj[f_node].end());
+        adj[s_node].erase(std::unique(adj[s_node].begin(), adj[s_node].end()), adj[s_node].end());
+}
+
+void Graph::print_graph(){
+    system("clear");
+    cout << "Matricula       Grau" << endl;
+    for(int i = 0; i < adj.size(); i++){
+        cout << "map: " << mat_map[i] << " v: " << i << endl;
+        cout << "   |--->";
+        for(int j = 0; j < adj[i].size(); j++){
+            cout << " e: " << adj[i][j]+1;
+        }
+        cout << endl;
+    }
+}
+
+vector<bool> Graph::intersection(vector<bool> a, vector<int> b){
+    vector<bool> r;
+    r.assign(a.size(), 0);
+    for(int i = 0; i < b.size(); i++){
+        if(a[b[i]]){
+            r[b[i]] = 1;
+        }
+    }
+    return r;
+}
+
+bool empty_v(vector<bool> a){
+    vector<bool> check(a.size(), 0);
+    if(a == check) return 1;
+    else return 0;
+}
+
+vector<bool> Graph::bron_kerbosch(vector<bool> R, vector<bool> P, vector<bool> X){
+    if(empty_v(P) && empty_v(X)){
+        return R;
+    }
+    for(int i = 0; i < P.size(); i++){ 
+        R[i] = 1;
+        bron_kerbosch(R, intersection(P, adj[i]), intersection(X, adj[i]));
+        X[i] = 1;
+        P[i] = 0;
+    }
+}
+
+void Graph::print_vertices_size(){
+    for(int i = 0; i < adj.size(); i++){
+        cout << mat_map[i] << " --> " << adj[i].size() << endl;
+    }
+}
+
+
+
+
+int menu(Graph &g){
+    int a;
+    while(a != 3){
+        system("cls || clear");
+        cout << "Menu:\n";
+        cout << "1 - Matriculas e seus graus\n";
+        cout << "2 - Imprimir cliques maximais\n";
+        cout << "3 - Sair do Programa\n";
+        cout << "--- A vizualizacao do grafo esta disponivel no arquivo\n";
+        cout << "graph.html disponivel dentro da pasta do trabalho.---\n";
+
+        cin >> a;
+        if(a == 1){
+            g.print_vertices_size();
+
+            cout << "Aperte <enter> para voltar ao menu\n";
+            getchar();
+            getchar();
+        }
+
+        if(a == 2){
+            vector<bool> P, R, X;
+            P.assign(g.size(), 1);
+            R.assign(g.size(), 0);
+            X.assign(g.size(), 0);
+
+            vector<bool> v = g.bron_kerbosch(R, P, X);
+            for(int i = 0; i < v.size(); i++){
+                cout << "v: " << v[i] << endl;
+            }
+            getchar();
+            getchar();
+        }
+    }
+
+}
+
+void process_line(string &line, Graph &g, int indice){
+    int cont = 0, j = 0;
+    string aux;
+    for(int i = 0; line[i] != '\0'; i++){
+
+        if(line[i] == '#'){
+            string aux2(2, 0);
+            aux[j] = '\0';
+            if(cont < 1) mat_map[indice-1] = aux;
+            if(cont >= 1){
+                aux2[0] = aux[0], aux2[1] = aux[1];
+                int vert = stoi(aux2);
+                g.add_edge(indice, vert);
+            }
+            j = 0;
+            aux.clear();
+            if(line[i+1] == '\0') continue;
+            i++;
+            cont++;
+        }
+        aux.push_back(line[i]);
+        j++;
     }
 }
 
 int main(){
-
-    Graph g;
-
-    int a = 1;
-    g.add_node(a);
-
+    int a = 49;
+    Graph g(a);
+    int indice = 1;
+    string line;
     fstream js_fl;
+    ifstream mat_fl;
+
     js_fl.open("graph.js", fstream::out | fstream::trunc);
+    mat_fl.open("amigos_tag20172.txt", fstream::in);
+
+    while(getline(mat_fl, line)){
+        process_line(line, g, indice);
+        indice++;
+        mat_fl.sync();
+    }
+
+    menu(g);
 
     js_fl << "$(document).ready(function() {\n";
     js_fl << "var width = $(document).width();\n";
     js_fl << "var height = $(document).height();\n";
     js_fl << "var g = new Graph();\n";
     js_fl << "g.edgeFactory.template.style.directed = false;\n";
-    int n;
-    cin >> n;
 
-    for(int i = 1; i <= n; i++){
+    for(int i = 1; i <= 49; i++){
         js_fl << "g.addNode(\"" << to_string(i) << "\");\n" ;
     }
-    for(int i = 0; i < n; i++){
-        int a, b;
-        cin >> a >> b;
+    for(int i = 0; i < 3; i++){
+        int a = 1, b = 3;
         js_fl << "g.addEdge(\"" << to_string(a) << "\",\"" << to_string(b) << "\");\n";
     }
 
