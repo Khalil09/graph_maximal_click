@@ -14,6 +14,7 @@ int edge1, edge2;
 class Graph{
     private:
         vector<vector<int>> adj;
+        vector<int> intersection(vector<int> A, vector<int> B);
     public:
         Graph();
         Graph(int size);
@@ -23,8 +24,7 @@ class Graph{
         void print_vertices_size();
         void print_graph();
         vector<int>& operator[](int  index);
-        vector<bool> intersection(vector<bool> a, vector<int> b);
-        vector<bool> bron_kerbosch(vector<bool> R, vector<bool> P, vector<bool> X);
+        vector<int> bron_kerbosch(vector<int> R, vector<int> P, vector<int> X, vector<int> *Maximal, vector<int> *Maximo);
 };
 
 Graph::Graph(int size){
@@ -73,33 +73,43 @@ void Graph::print_graph(){
     }
 }
 
-vector<bool> Graph::intersection(vector<bool> a, vector<int> b){
-    vector<bool> r;
-    r.assign(a.size(), 0);
-    for(int i = 0; i < b.size(); i++){
-        if(a[b[i]]){
-            r[b[i]] = 1;
-        }
-    }
-    return r;
-}
+vector<int> Graph::intersection(vector<int> A, vector<int> B){
+	vector<int> C;
+	int j = 0;
+	int i = 0;
+	while((i < B.size()) && (j < A.size())){
+		if(B[i] > A[j]){
+			j++;
+		}
+		else{
+			if(A[j] > B[i]){
+				i++;
+			}
+			else{
+				C.push_back(A[j]);
+				i++;
+				j++;
+			}
+		}
+	}
+	return C;
+} 
 
-bool empty_v(vector<bool> a){
-    vector<bool> check(a.size(), 0);
-    if(a == check) return 1;
-    else return 0;
-}
-
-vector<bool> Graph::bron_kerbosch(vector<bool> R, vector<bool> P, vector<bool> X){
-    if(empty_v(P) && empty_v(X)){
-        return R;
-    }
-    for(int i = 0; i < P.size(); i++){ 
-        R[i] = 1;
-        bron_kerbosch(R, intersection(P, adj[i]), intersection(X, adj[i]));
-        X[i] = 1;
-        P[i] = 0;
-    }
+vector<int> Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X, vector<int> *Maximal, vector<int> *Maximo){
+	if(P.empty() && X.empty()){
+		if(R.size() == 5){
+			*Maximal = R;
+		}
+		if(R.size() > Maximo->size()){
+			*Maximo = R;
+		}
+		return R;
+	}
+	for(int i = 0; i < P.size();i++){
+		bron_kerbosch(R.push_back(P[i]), intersection(P, adj[P[i]]), intersection(X, adj[P[i]]), Maximal, Maximo);
+		P.erase(P.begin() + i);
+		X.push_back(P[i]);
+	}
 }
 
 void Graph::print_vertices_size(){
@@ -108,16 +118,13 @@ void Graph::print_vertices_size(){
     }
 }
 
-
-
-
 int menu(Graph &g){
     int a;
     while(a != 3){
         system("cls || clear");
         cout << "Menu:\n";
         cout << "1 - Matriculas e seus graus\n";
-        cout << "2 - Imprimir cliques maximais\n";
+        cout << "2 - Imprimir clique maximal e maximo\n";
         cout << "3 - Sair do Programa\n";
         cout << "--- A vizualizacao do grafo esta disponivel no arquivo\n";
         cout << "graph.html disponivel dentro da pasta do trabalho.---\n";
@@ -132,20 +139,24 @@ int menu(Graph &g){
         }
 
         if(a == 2){
-            vector<bool> P, R, X;
-            P.assign(g.size(), 1);
-            R.assign(g.size(), 0);
-            X.assign(g.size(), 0);
-
-            vector<bool> v = g.bron_kerbosch(R, P, X);
-            for(int i = 0; i < v.size(); i++){
-                cout << "v: " << v[i] << endl;
+            vector<int> P, R, X, Maximal, Maximo;
+            for(int i = 0; i < 49; i++){
+            	P.push_back(i);
             }
+            g.bron_kerbosch(P, R, X, &Maximal, &Maximo);
+            cout << "Clique maximal de tamanho 5: "<<endl;
+ 			for(int i = 0; i < Maximal.size(); i++){
+ 				cout<< mat_map[Maximal[i]]<<", "; 
+ 			}
+ 			cout<<endl;
+ 			cout << "Clique maximo do grafo: "<<endl;
+ 			for(int i = 0; i < Maximo.size(); i++){
+ 				cout<< mat_map[Maximo[i]]<<", "; 
+ 			} 
             getchar();
             getchar();
         }
     }
-
 }
 
 void process_line(string &line, Graph &g, int indice){
