@@ -9,6 +9,7 @@
 using namespace std;
 
 map<int, string> mat_map;
+vector<int> Maximo, Maximal;
 int edge1, edge2;
 
 class Graph{
@@ -24,7 +25,7 @@ class Graph{
         void print_vertices_size();
         void print_graph();
         vector<int>& operator[](int  index);
-        vector<int> bron_kerbosch(vector<int> R, vector<int> P, vector<int> X, vector<int> *Maximal, vector<int> *Maximo);
+        void bron_kerbosch(vector<int> R, vector<int> P, vector<int> X);
 };
 
 Graph::Graph(int size){
@@ -93,22 +94,28 @@ vector<int> Graph::intersection(vector<int> A, vector<int> B){
 		}
 	}
 	return C;
-} 
+}
 
-vector<int> Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X, vector<int> *Maximal, vector<int> *Maximo){
+void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
+
 	if(P.empty() && X.empty()){
 		if(R.size() == 5){
-			*Maximal = R;
+			Maximal = R;
 		}
-		if(R.size() > Maximo->size()){
-			*Maximo = R;
+		if(R.size() > Maximo.size()){
+			Maximo = R;
 		}
-		return R;
+        return;
 	}
 	for(int i = 0; i < P.size();i++){
-		bron_kerbosch(R.push_back(P[i]), intersection(P, adj[P[i]]), intersection(X, adj[P[i]]), Maximal, Maximo);
-		P.erase(P.begin() + i);
-		X.push_back(P[i]);
+        if(!adj[i].empty()){
+            cout << "----" << P[i] << endl;
+            getchar();
+            R.push_back(P[i]);
+    		bron_kerbosch(R, intersection(P, adj[P[i]]), intersection(X, adj[P[i]]));
+    		P.erase(P.begin() + i);
+    		X.push_back(P[i]);
+        }
 	}
 }
 
@@ -143,16 +150,20 @@ int menu(Graph &g){
             for(int i = 0; i < 49; i++){
             	P.push_back(i);
             }
-            g.bron_kerbosch(P, R, X, &Maximal, &Maximo);
+            g.bron_kerbosch(R, P, X);
             cout << "Clique maximal de tamanho 5: "<<endl;
  			for(int i = 0; i < Maximal.size(); i++){
- 				cout<< mat_map[Maximal[i]]<<", "; 
+ 				cout<< mat_map[Maximal[i]]<<", ";
  			}
  			cout<<endl;
  			cout << "Clique maximo do grafo: "<<endl;
  			for(int i = 0; i < Maximo.size(); i++){
- 				cout<< mat_map[Maximo[i]]<<", "; 
- 			} 
+ 				cout<< mat_map[Maximo[i]]<<", ";
+ 			}
+ 			for(int i = 0; i < Maximo.size(); i++){
+ 				cout<< Maximo[i] <<", ";
+ 			}
+
             getchar();
             getchar();
         }
