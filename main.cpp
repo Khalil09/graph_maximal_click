@@ -8,6 +8,9 @@
 
 using namespace std;
 
+#define iv pair<int, vector<int>>
+
+fstream js_fl;
 map<int, string> mat_map;
 vector<int> Maximo, Maximal;
 int edge1, edge2;
@@ -15,6 +18,7 @@ int edge1, edge2;
 class Graph{
     private:
         vector<vector<int>> adj;
+
         vector<int> intersection(vector<int> A, vector<int> B);
         vector<int> uniom(vector<int> A, int a);
     public:
@@ -103,8 +107,6 @@ vector<int> Graph::uniom(vector<int> A, int a){
 }
 
 void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
-    /*cout << Maximo.size() <<endl;
-    cout << Maximal.size()<<endl;*/
 	if(P.empty() && X.empty()){
 		if(R.size() == 5){
 			Maximal = R;
@@ -115,19 +117,25 @@ void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
         return;
 	}
 	for(int i = 0; i < P.size();i++){
-        /*cout << "----" << P[i] << endl;
-        /*cout << P[0] <<endl;
-        cout << P[1] << endl;*/
-        /*getchar();*/
+
     	bron_kerbosch(uniom(R, P[i]), intersection(P, adj[P[i]]), intersection(X, adj[P[i]]));
     	P.erase(P.begin() + i);
     	X.push_back(P[i]);
 	}
 }
 
+bool compare_by_size(iv a, iv b) {
+    return (a.second.size() < b.second.size());
+}
+
 void Graph::print_vertices_size(){
+    priority_queue<iv ,vector<iv>, function<bool(iv, iv)>> pq(compare_by_size);
     for(int i = 0; i < adj.size(); i++){
-        cout << mat_map[i] << " --> " << adj[i].size() << endl;
+        pq.push(make_pair(i, adj[i]));
+    }
+    while(not pq.empty()){
+        cout << mat_map[pq.top().first] << " --> " << pq.top().second.size() << endl;
+        pq.pop();
     }
 }
 
@@ -135,12 +143,16 @@ int menu(Graph &g){
     int a;
     while(a != 3){
         system("cls || clear");
-        cout << "Menu:\n";
-        cout << "1 - Matriculas e seus graus\n";
-        cout << "2 - Imprimir clique maximal e maximo\n";
-        cout << "3 - Sair do Programa\n";
-        cout << "--- A vizualizacao do grafo esta disponivel no arquivo\n";
-        cout << "graph.html disponivel dentro da pasta do trabalho.---\n";
+        cout << "|------------------------Menu--------------------------|\n";
+        cout << "|1 - Matriculas e seus graus                           |\n";
+        cout << "|2 - Imprimir clique maximal e maximo                  |\n";
+        cout << "|3 - Sair do Programa                                  |\n";
+        cout << "|                                                      |\n";
+        cout << "|--- A vizualizacao do grafo esta disponivel no arquivo|\n";
+        cout << "|--- graph.html que está dentro da pasta do trabalho.--|\n";
+        cout << "|                                                      |\n";
+        cout << "|+++++NAO ESQUECA DE LER O ARQUVO LEIA-ME ANTES.txt++++|\n";
+        cout << "--------------------------------------------------------\n";
 
         cin >> a;
         if(a == 1){
@@ -159,24 +171,29 @@ int menu(Graph &g){
             g.bron_kerbosch(R, P, X);
             /*cout << Maximo.size() <<endl;
             cout << Maximal.size() <<endl;*/
-            cout << "Clique maximal de tamanho 5: "<<endl;
+            cout << "----CLIQUE MAXIMAL DE TAMANHO 5----- " << endl;
+            cout << "Matriculas dos vertices: ";
  			for(int i = 0; i < Maximal.size(); i++){
  				cout<< mat_map[Maximal[i]]<<", ";
  			}
  			cout<<endl;
+            cout << "Numero dos vertices: ";
             for(int i = 0; i < Maximal.size(); i++){
-                cout<< Maximal[i] <<", ";
+                cout<< Maximal[i]+1 <<", ";
             }
-            cout<<endl;
- 			cout << "Clique maximo do grafo: "<<endl;
+            cout << "\n" <<endl;
+            cout << "----CLIQUE MAXIMO DO GRAFO----- " << endl;
+            cout << "Matriculas dos vertices: ";
  			for(int i = 0; i < Maximo.size(); i++){
  				cout<< mat_map[Maximo[i]]<<", ";
  			}
             cout<<endl;
+            cout << "Numero dos vertices: ";
  			for(int i = 0; i < Maximo.size(); i++){
- 				cout<< Maximo[i] <<", ";
+ 				cout<< Maximo[i]+1 <<", ";
  			}
-
+            cout << "\n" << endl;
+            cout << "Aperte <enter> para voltar ao menu\n";
             getchar();
             getchar();
         }
@@ -196,6 +213,7 @@ void process_line(string &line, Graph &g, int indice){
                 aux2[0] = aux[0], aux2[1] = aux[1];
                 int vert = stoi(aux2);
                 g.add_edge(indice, vert);
+                js_fl << "g.addEdge(\"" << to_string(indice) << "\",\"" << to_string(vert) << "\");\n";
             }
             j = 0;
             aux.clear();
@@ -213,11 +231,22 @@ int main(){
     Graph g(a);
     int indice = 1;
     string line;
-    fstream js_fl;
     ifstream mat_fl;
 
     js_fl.open("graph.js", fstream::out | fstream::trunc);
     mat_fl.open("amigos_tag20172.txt", fstream::in);
+
+    js_fl << "$(document).ready(function() {\n";
+    js_fl << "var width = $(document).width();\n";
+    js_fl << "var height = $(document).height();\n";
+    js_fl << "var render = function(r, n) {var set = r.set().push(r.rect(n.point[0]-5, n.point[1]-15, 10, 10).attr({\"fill\": \"#F00\", r : \"12px\", \"stroke-width\" : n.distance == 0 ? \"1px\" : \"1px\" })).push(r.text(n.point[0], n.point[1] + 10, (n.label || n.id)));return set;};\n";
+    js_fl << "var g = new Graph();\n";
+    js_fl << "g.edgeFactory.template.style.directed = false;\n";
+
+
+    for(int i = 1; i <= 49; i++){
+        js_fl << "g.addNode(\"" << to_string(i) << "\", {render:render});\n" ;
+    }
 
     while(getline(mat_fl, line)){
         process_line(line, g, indice);
@@ -227,21 +256,7 @@ int main(){
 
     menu(g);
 
-    js_fl << "$(document).ready(function() {\n";
-    js_fl << "var width = $(document).width();\n";
-    js_fl << "var height = $(document).height();\n";
-    js_fl << "var g = new Graph();\n";
-    js_fl << "g.edgeFactory.template.style.directed = false;\n";
-
-    for(int i = 1; i <= 49; i++){
-        js_fl << "g.addNode(\"" << to_string(i) << "\");\n" ;
-    }
-    for(int i = 0; i < 3; i++){
-        int a = 1, b = 3;
-        js_fl << "g.addEdge(\"" << to_string(a) << "\",\"" << to_string(b) << "\");\n";
-    }
-
-    js_fl << "var layouter = new Graph.Layout.Ordered(g, topological_sort(g));\n";
+    js_fl << "var layouter = new Graph.Layout.Spring(g);\n";
     js_fl << "var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);\n});";
 
     return 0;

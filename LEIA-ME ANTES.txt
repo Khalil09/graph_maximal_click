@@ -1,0 +1,21 @@
+---Primeiro Trabalho relativo a matéria Teoria e aplicação de grafos---
+
+- Alunos: 1.Khalil Carsten do Nascimento - 15/0134495
+          2.João Gabriel - 15/0131992
+
+- Compilador: g++ versão 6.3.0
+
+- Flag de compilação: -ansi -std=c++11 (g++ -ansi -std=c++11 main.cpp)
+
+
+Código principal do trabalho se encontra no arquivo "main.cpp".
+
+Ao executar o programa o menu é auto explicativo.
+
+Tentamos desenhar o grafo utilizando uma biblioteca de Javascript a
+Dracula_graph.js. Ao executar o programa é criado um arquivo .js chamado
+graph.js onde as linhas de comando são colocadas a medida que o grafo é
+gerado. Para vizualisá-lo basta abrir o arquivo <graph.html> em qualquer
+Browser(de preferência Firefox ou Chrome). Pelo tamanho do Grafo a
+distribuição dos nós ficou bem complexa e difícil de distinguir. Todos
+os nós estão nomeados pelo número do aluno na ordem da lista.
