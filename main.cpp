@@ -108,14 +108,14 @@ void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
         return;
 	}
 	for(int i = 0; i < P.size();i++){
-        if(!adj[i].empty()){
-            cout << "----" << P[i] << endl;
-            getchar();
-            R.push_back(P[i]);
-    		bron_kerbosch(R, intersection(P, adj[P[i]]), intersection(X, adj[P[i]]));
-    		P.erase(P.begin() + i);
-    		X.push_back(P[i]);
-        }
+        cout << "----" << P[i] << endl;
+        /*cout << P[0] <<endl;
+        cout << P[1] << endl;*/
+        /*getchar();*/
+        R.push_back(P[i]);
+    	bron_kerbosch(R, intersection(P, adj[P[i]]), intersection(X, adj[P[i]]));
+    	P.erase(P.begin() + i);
+    	X.push_back(P[i]);
 	}
 }
 
