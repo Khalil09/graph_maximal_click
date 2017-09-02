@@ -15,8 +15,12 @@ map<int, string> mat_map;
 vector<int> Maximo, Maximal;
 int edge1, edge2;
 
+// Classe que define a estrutura do Grafo
 class Graph{
     private:
+        // O grafo é composto por um vetor de vetor de inteiros,
+        // sendo assim seus índices representam a numeração dos
+        // alunos e o vetor de inteiro eh a lista de vizinhos.
         vector<vector<int>> adj;
 
         vector<int> intersection(vector<int> A, vector<int> B);
@@ -26,13 +30,14 @@ class Graph{
         Graph(int size);
         int size();
         int size_adj(int node);
-        void add_edge(int node1, int node2); // add
+        void add_edge(int node1, int node2);
         void print_vertices_size();
         void print_graph();
         vector<int>& operator[](int  index);
         void bron_kerbosch(vector<int> R, vector<int> P, vector<int> X);
 };
 
+// Contrutor do grafo, -int size- relativo ao numero de alunos n grafo
 Graph::Graph(int size){
     for(int i = 0; i < size; i++){
         vector<int> a;
@@ -40,20 +45,17 @@ Graph::Graph(int size){
     }
 }
 
+// Funcao que define o operador "[]" para a classe grafo
+// assim eh possivel acessar uma lista de adjacencia usando somente g[lista]
 vector<int>& Graph::operator[](int index){
     if (index > adj.size() || index < 0)
         throw std::out_of_range("Index out of range");
     return adj[index];
 }
 
-int Graph::size(){
-    return adj.size();
-}
-
-int Graph::size_adj(int node){
-    return adj[node].size();
-}
-
+// Funcao que cria as relacoes(arestas) entre os vertices.
+// Tambem garante que nao existe vertices repetidos na lista
+// de vizinhos e os mantem ordenados.
 void Graph::add_edge(int f_node, int s_node){
         f_node--;
         s_node--;
@@ -66,6 +68,7 @@ void Graph::add_edge(int f_node, int s_node){
         adj[s_node].erase(std::unique(adj[s_node].begin(), adj[s_node].end()), adj[s_node].end());
 }
 
+// Funcao de Debug que escreve o grafo no terminal
 void Graph::print_graph(){
     system("clear");
     cout << "Matricula       Grau" << endl;
@@ -79,6 +82,7 @@ void Graph::print_graph(){
     }
 }
 
+// Funcao que retorna em um vetor a inteseccao entre dois vetores
 vector<int> Graph::intersection(vector<int> A, vector<int> B){
 	vector<int> C;
 	int j = 0;
@@ -101,11 +105,14 @@ vector<int> Graph::intersection(vector<int> A, vector<int> B){
 	return C;
 }
 
+// Funcao que retorna em um vetor a uniao de um vetor com um inteiro
 vector<int> Graph::uniom(vector<int> A, int a){
     A.push_back(a);
     return A;
 }
 
+// Funcao que executa o algoritmo de Bron Kerbosch encontrando recursivamente
+// os cliques maximos e maximais
 void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
 	if(P.empty() && X.empty()){
 		if(R.size() == 5){
@@ -124,10 +131,13 @@ void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
 	}
 }
 
+// Funcao usada para definir a funcao de comparacao da priority_queue
+// da funcao abaixo
 bool compare_by_size(iv a, iv b) {
     return (a.second.size() < b.second.size());
 }
 
+// Funcao que escreve no terminal o grau de todos os vertices
 void Graph::print_vertices_size(){
     priority_queue<iv ,vector<iv>, function<bool(iv, iv)>> pq(compare_by_size);
     for(int i = 0; i < adj.size(); i++){
@@ -139,6 +149,7 @@ void Graph::print_vertices_size(){
     }
 }
 
+// Funcao responsavel por controlar o menu
 int menu(Graph &g){
     int a;
     while(a != 3){
@@ -200,6 +211,8 @@ int menu(Graph &g){
     }
 }
 
+// Funcao responsavel por processar cada linha do arquivo de entrada
+// amigos_tag20172 e criar o grafo a partir dele
 void process_line(string &line, Graph &g, int indice){
     int cont = 0, j = 0;
     string aux;
