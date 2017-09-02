@@ -16,6 +16,7 @@ class Graph{
     private:
         vector<vector<int>> adj;
         vector<int> intersection(vector<int> A, vector<int> B);
+        vector<int> uniom(vector<int> A, int a);
     public:
         Graph();
         Graph(int size);
@@ -96,6 +97,11 @@ vector<int> Graph::intersection(vector<int> A, vector<int> B){
 	return C;
 }
 
+vector<int> Graph::uniom(vector<int> A, int a){
+    A.push_back(a);
+    return A;
+}
+
 void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
     /*cout << Maximo.size() <<endl;
     cout << Maximal.size()<<endl;*/
@@ -113,8 +119,7 @@ void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
         /*cout << P[0] <<endl;
         cout << P[1] << endl;*/
         /*getchar();*/
-        R.push_back(P[i]);
-    	bron_kerbosch(R, intersection(P, adj[P[i]]), intersection(X, adj[P[i]]));
+    	bron_kerbosch(uniom(R, P[i]), intersection(P, adj[P[i]]), intersection(X, adj[P[i]]));
     	P.erase(P.begin() + i);
     	X.push_back(P[i]);
 	}
@@ -159,10 +164,15 @@ int menu(Graph &g){
  				cout<< mat_map[Maximal[i]]<<", ";
  			}
  			cout<<endl;
+            for(int i = 0; i < Maximal.size(); i++){
+                cout<< Maximal[i] <<", ";
+            }
+            cout<<endl;
  			cout << "Clique maximo do grafo: "<<endl;
  			for(int i = 0; i < Maximo.size(); i++){
  				cout<< mat_map[Maximo[i]]<<", ";
  			}
+            cout<<endl;
  			for(int i = 0; i < Maximo.size(); i++){
  				cout<< Maximo[i] <<", ";
  			}
