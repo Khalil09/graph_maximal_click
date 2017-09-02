@@ -97,7 +97,8 @@ vector<int> Graph::intersection(vector<int> A, vector<int> B){
 }
 
 void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
-
+    /*cout << Maximo.size() <<endl;
+    cout << Maximal.size()<<endl;*/
 	if(P.empty() && X.empty()){
 		if(R.size() == 5){
 			Maximal = R;
@@ -108,7 +109,7 @@ void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
         return;
 	}
 	for(int i = 0; i < P.size();i++){
-        cout << "----" << P[i] << endl;
+        /*cout << "----" << P[i] << endl;
         /*cout << P[0] <<endl;
         cout << P[1] << endl;*/
         /*getchar();*/
@@ -146,11 +147,13 @@ int menu(Graph &g){
         }
 
         if(a == 2){
-            vector<int> P, R, X, Maximal, Maximo;
+            vector<int> P, R, X;
             for(int i = 0; i < 49; i++){
             	P.push_back(i);
             }
             g.bron_kerbosch(R, P, X);
+            /*cout << Maximo.size() <<endl;
+            cout << Maximal.size() <<endl;*/
             cout << "Clique maximal de tamanho 5: "<<endl;
  			for(int i = 0; i < Maximal.size(); i++){
  				cout<< mat_map[Maximal[i]]<<", ";
