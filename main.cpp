@@ -10,9 +10,13 @@ using namespace std;
 
 #define iv pair<int, vector<int>>
 
+//variaveis globais
 fstream js_fl;
+// map  que ira mapear a matricula de cada vertice com o seu indice
 map<int, string> mat_map;
+//vectors de inteiros que armazenarao os cliques maximal e maximo do grafo
 vector<int> Maximo, Maximal;
+
 int edge1, edge2;
 
 // Classe que define a estrutura do Grafo
@@ -47,6 +51,8 @@ Graph::Graph(int size){
 
 // Funcao que define o operador "[]" para a classe grafo
 // assim eh possivel acessar uma lista de adjacencia usando somente g[lista]
+// Recebe como parametro o inteiro index que o indice da lista do vertice requisitado
+// e retorna a lista de adjacentes desse vertice
 vector<int>& Graph::operator[](int index){
     if (index > adj.size() || index < 0)
         throw std::out_of_range("Index out of range");
@@ -83,6 +89,9 @@ void Graph::print_graph(){
 }
 
 // Funcao que retorna em um vetor a inteseccao entre dois vetores
+// Recebe como parametro dois vectors de inteiros A e B, os quais 
+// serao relizados a interseccao e armazenado no vector de inteiros C 
+// que sera retornado
 vector<int> Graph::intersection(vector<int> A, vector<int> B){
 	vector<int> C;
 	int j = 0;
@@ -106,6 +115,8 @@ vector<int> Graph::intersection(vector<int> A, vector<int> B){
 }
 
 // Funcao que retorna em um vetor a uniao de um vetor com um inteiro
+// Recebe um vector de inteiros A e um inteiro a que sera inserido em A
+// Retorna o vector A com a inserido 
 vector<int> Graph::uniom(vector<int> A, int a){
     A.push_back(a);
     return A;
@@ -113,6 +124,7 @@ vector<int> Graph::uniom(vector<int> A, int a){
 
 // Funcao que executa o algoritmo de Bron Kerbosch encontrando recursivamente
 // os cliques maximos e maximais
+// Recebe como parametros os vectors de inteiros R, P, X que serao usados para realizar o algoritmo
 void Graph::bron_kerbosch(vector<int> R, vector<int> P, vector<int> X){
 	if(P.empty() && X.empty()){
 		if(R.size() == 5){
@@ -138,6 +150,7 @@ bool compare_by_size(iv a, iv b) {
 }
 
 // Funcao que escreve no terminal o grau de todos os vertices
+// nao recebe nada como parâmetro assim como nao retorna nada tambem
 void Graph::print_vertices_size(){
     priority_queue<iv ,vector<iv>, function<bool(iv, iv)>> pq(compare_by_size);
     for(int i = 0; i < adj.size(); i++){
@@ -149,7 +162,8 @@ void Graph::print_vertices_size(){
     }
 }
 
-// Funcao responsavel por controlar o menu
+// Funcao responsavel por exibir e controlar o menu
+// Recebe como parâmetro g(ponteiro do Grafo em que serão realizadas as operações do menu) 
 int menu(Graph &g){
     int a;
     while(a != 3){
@@ -180,8 +194,6 @@ int menu(Graph &g){
             	P.push_back(i);
             }
             g.bron_kerbosch(R, P, X);
-            /*cout << Maximo.size() <<endl;
-            cout << Maximal.size() <<endl;*/
             cout << "----CLIQUE MAXIMAL DE TAMANHO 5----- " << endl;
             cout << "Matriculas dos vertices: ";
  			for(int i = 0; i < Maximal.size(); i++){
@@ -213,6 +225,8 @@ int menu(Graph &g){
 
 // Funcao responsavel por processar cada linha do arquivo de entrada
 // amigos_tag20172 e criar o grafo a partir dele
+// recebe como parâmetrosa line(ponteiro de string, é a linha do arquivo lida), g(ponteiro de Grafo, o grafo a ser formado) e
+// indice(inteiro usado para se manejar o grafo) 
 void process_line(string &line, Graph &g, int indice){
     int cont = 0, j = 0;
     string aux;
