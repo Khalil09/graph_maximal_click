@@ -19,3 +19,5 @@ gerado. Para vizualisá-lo basta abrir o arquivo <graph.html> em qualquer
 Browser(de preferência Firefox ou Chrome). Pelo tamanho do Grafo a
 distribuição dos nós ficou bem complexa e difícil de distinguir. Todos
 os nós estão nomeados pelo número do aluno na ordem da lista.
+
+### Na vizualização do grafo é possivel clickar nos vértices e movê-los.

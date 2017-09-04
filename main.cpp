@@ -1,3 +1,6 @@
+//- Alunos: 1.Khalil Carsten do Nascimento - 15/0134495
+//          2.João Gabriel - 15/0131992
+
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -89,8 +92,8 @@ void Graph::print_graph(){
 }
 
 // Funcao que retorna em um vetor a inteseccao entre dois vetores
-// Recebe como parametro dois vectors de inteiros A e B, os quais 
-// serao relizados a interseccao e armazenado no vector de inteiros C 
+// Recebe como parametro dois vectors de inteiros A e B, os quais
+// serao relizados a interseccao e armazenado no vector de inteiros C
 // que sera retornado
 vector<int> Graph::intersection(vector<int> A, vector<int> B){
 	vector<int> C;
@@ -116,7 +119,7 @@ vector<int> Graph::intersection(vector<int> A, vector<int> B){
 
 // Funcao que retorna em um vetor a uniao de um vetor com um inteiro
 // Recebe um vector de inteiros A e um inteiro a que sera inserido em A
-// Retorna o vector A com a inserido 
+// Retorna o vector A com a inserido
 vector<int> Graph::uniom(vector<int> A, int a){
     A.push_back(a);
     return A;
@@ -163,7 +166,7 @@ void Graph::print_vertices_size(){
 }
 
 // Funcao responsavel por exibir e controlar o menu
-// Recebe como parâmetro g(ponteiro do Grafo em que serão realizadas as operações do menu) 
+// Recebe como parâmetro g(ponteiro do Grafo em que serão realizadas as operações do menu)
 int menu(Graph &g){
     int a;
     while(a != 3){
@@ -226,7 +229,7 @@ int menu(Graph &g){
 // Funcao responsavel por processar cada linha do arquivo de entrada
 // amigos_tag20172 e criar o grafo a partir dele
 // recebe como parâmetrosa line(ponteiro de string, é a linha do arquivo lida), g(ponteiro de Grafo, o grafo a ser formado) e
-// indice(inteiro usado para se manejar o grafo) 
+// indice(inteiro usado para se manejar o grafo)
 void process_line(string &line, Graph &g, int indice){
     int cont = 0, j = 0;
     string aux;
